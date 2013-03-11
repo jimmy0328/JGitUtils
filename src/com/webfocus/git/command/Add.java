@@ -1,0 +1,16 @@
+package com.webfocus.git.command;
+
+import com.webfocus.git.core.CommandService;
+
+
+//http://download.eclipse.org/jgit/docs/jgit-2.0.0.201206130900-r/apidocs/org/eclipse/jgit/revwalk/RevCommit.html#getAuthorIdent%28%29
+
+public class Add extends CommandService {
+
+	@Override
+	public void execute() throws Exception {
+		//TODO
+		//default add all update files
+		git.add().addFilepattern(".+").call();
+	}
+}
