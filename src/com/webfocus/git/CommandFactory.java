@@ -1,5 +1,13 @@
 package com.webfocus.git;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webfocus.git.command.Add;
 import com.webfocus.git.command.Clone;
 import com.webfocus.git.command.Commit;
@@ -23,6 +31,20 @@ public class CommandFactory {
 
 	public static void log() {
 		Log log = (Log) commander.setCommand(new Log());
+		String logs = log.getLog();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			List<Map> logList = mapper.readValue(logs, new TypeReference<List<Map>>(){});
+			for(Map l : logList){
+				System.out.println(l);
+			}
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void pull() {
@@ -52,8 +74,9 @@ public class CommandFactory {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+//		CommandFactory.cloneProject();
 //		CommandFactory.gitInit();
-		CommandFactory.push();
+//		CommandFactory.push();
 		CommandFactory.log();
 //		CommandFactory.add();
 //		CommandFactory.commit("add mongo datasource!!");

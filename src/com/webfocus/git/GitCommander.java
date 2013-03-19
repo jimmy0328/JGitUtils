@@ -27,11 +27,8 @@ public class GitCommander {
 			Constructor[] cons = cls.getConstructors();
 			Method[] methods = cls.getMethods();
 			Method m = cls.getMethod(action, null);
-			System.out.println("========== start "
-					+ _attrObj.getClass().getSimpleName() + " ========");
 			m.invoke(_attrObj, null);
 			// _attrObj = m.invoke(cons[0].newInstance(null), null);
-			System.out.println("========== finish do ==========");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
