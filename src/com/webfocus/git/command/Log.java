@@ -30,10 +30,13 @@ public class Log extends CommandService {
 	}
 
 	@Override
-	public void execute() throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
+	public void execute(Map info) throws Exception {
+		if (info.size() > 0) {
+			count = Integer.parseInt("" + info.get("count"));
+		}
 		ArrayList logs = new ArrayList();
-		for (RevCommit revCommit : git.log().setMaxCount(5).call()) {
+		System.out.println("count:" + count);
+		for (RevCommit revCommit : git.log().setMaxCount(count).call()) {
 			PersonIdent authorIdent = revCommit.getAuthorIdent();
 			Date authorDate = authorIdent.getWhen();
 			Map logMap = new HashMap();
@@ -47,5 +50,4 @@ public class Log extends CommandService {
 		String log = new ObjectMapper().writeValueAsString(logs);
 		this.setLog(log);
 	}
-
 }

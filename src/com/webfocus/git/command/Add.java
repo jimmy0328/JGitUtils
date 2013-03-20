@@ -1,5 +1,7 @@
 package com.webfocus.git.command;
 
+import java.util.Map;
+
 import com.webfocus.git.core.CommandService;
 
 
@@ -8,7 +10,7 @@ import com.webfocus.git.core.CommandService;
 public class Add extends CommandService {
 
 	@Override
-	public void execute() throws Exception {
+	public void execute(Map info) throws Exception {
 		//TODO
 		//default add all update files
 		git.add().addFilepattern(".+").call();

@@ -1,6 +1,7 @@
 package com.webfocus.git.command;
 
 import java.io.File;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -14,14 +15,14 @@ public class Clone extends CommandService {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	public void execute(Map info) throws Exception {
 		UsernamePasswordCredentialsProvider user = new UsernamePasswordCredentialsProvider(
-				super.getUserid(), super.getPassword());
-		File rootPath = new File(super.getGitRespository());
+				datasource.getUserid(), datasource.getPassword());
+		File rootPath = new File(datasource.getGitRespository());
 		if (!rootPath.exists()) {
 			rootPath.mkdir();
 		}
-		Git.cloneRepository().setDirectory(rootPath).setURI(super.getUrl())
+		Git.cloneRepository().setDirectory(rootPath).setURI(datasource.getUrl())
 				.setCredentialsProvider(user).call();
 	}
 

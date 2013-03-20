@@ -1,6 +1,7 @@
 package com.webfocus.git.command;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -13,10 +14,10 @@ import com.webfocus.git.core.CommandService;
 public class Push extends CommandService {
 
 	@Override
-	public void execute() throws Exception {
+	public void execute(Map info) throws Exception {
 		// credentials
 		CredentialsProvider cp = new UsernamePasswordCredentialsProvider(
-				super.getUserid(), super.getPassword());
+				datasource.getUserid(), datasource.getPassword());
 		PushCommand pc = git.push();
 		pc.setCredentialsProvider(cp).setForce(true).setPushAll();
 		try {

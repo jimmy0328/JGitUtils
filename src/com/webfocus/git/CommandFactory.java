@@ -1,12 +1,10 @@
 package com.webfocus.git;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webfocus.git.command.Add;
 import com.webfocus.git.command.Clone;
@@ -23,43 +21,49 @@ public class CommandFactory {
 	public static void cloneProject() {
 		Clone clone = new Clone();
 		try {
-			clone.execute();
+			clone.execute(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void log() {
-		Log log = (Log) commander.setCommand(new Log());
+	public static void log(int count) {
+		Map info = new HashMap();
+		info.put("count", count);
+		Log log = (Log) commander.setCommand(new Log(), info);
 		String logs = log.getLog();
+		System.out.println("logs::"+logs);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<Map> logList = mapper.readValue(logs, new TypeReference<List<Map>>(){});
-			for(Map l : logList){
+			List<Map> logList = mapper.readValue(logs,
+					new TypeReference<List<Map>>() {
+					});
+			for (Map l : logList) {
 				System.out.println(l);
 			}
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public static void log() {
+		log(5);
 	}
 
 	public static void pull() {
 		commander.setCommand(new Pull());
 	}
-	
+
 	public static void add() {
 		commander.setCommand(new Add());
 	}
-	
-	public static void gitInit(){
+
+	public static void gitInit() {
 		commander.setCommand(new Init());
 	}
-	
-	public static void push(){
+
+	public static void push() {
 		commander.setCommand(new Push());
 	}
 
@@ -74,14 +78,14 @@ public class CommandFactory {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		CommandFactory.cloneProject();
-//		CommandFactory.gitInit();
-//		CommandFactory.push();
-		CommandFactory.log();
-//		CommandFactory.add();
-//		CommandFactory.commit("add mongo datasource!!");
-//		CommandFactory.log();
-	
+		// CommandFactory.cloneProject();
+		// CommandFactory.gitInit();
+		CommandFactory.push();
+	    CommandFactory.log(2);
+		// CommandFactory.add();
+	    CommandFactory.commit("refactor datasource!!");
+		// CommandFactory.log();
+
 	}
 
 }

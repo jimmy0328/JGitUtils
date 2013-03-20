@@ -1,5 +1,7 @@
 package com.webfocus.git.command;
 
+import java.util.Map;
+
 import com.webfocus.git.core.CommandService;
 
 public class Commit extends CommandService {
@@ -14,8 +16,8 @@ public class Commit extends CommandService {
 	}
 
 	@Override
-	public void execute() throws Exception {
-		git.commit().setCommitter(super.getUserid(), super.getMail())
+	public void execute(Map info) throws Exception {
+		git.commit().setCommitter(datasource.getUserid(), datasource.getMail())
 				.setMessage(msg).call();
 	}
 
